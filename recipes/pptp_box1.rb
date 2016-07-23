@@ -30,12 +30,11 @@ template "/etc/ppp/peers/pptpserver" do
   group "root"
   mode "0664"
 end
-pppd call pptpserver
 
 execute "calling pptpserver" do
 	command "pppd call pptpserver"
 end
 
 execute "adding route to pptpserver" do
-	command "ip route add 10.80.0.0/8 dev ppp0"
+	command "ip route add 10.0.0.0/24 dev ppp0"
 end
