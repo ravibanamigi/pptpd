@@ -37,5 +37,5 @@ execute "calling pptpserver" do
 end
 
 execute "adding route to pptpserver" do
-	command "ip route add 10.0.0.0/8 dev ppp0"
+	command "ip route add 192.168.240.0/8 dev ppp0"
 end
