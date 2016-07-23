@@ -43,8 +43,8 @@ execute "making executible" do
   command "chmod +x /etc/ppp/ip-up.d/route-traffic"
 end
 
-template "/etc/ppp/peers/pptpserver" do
-  source "pptpserver.erb"
+template "/etc/ppp/peers/pptpserver1" do
+  source "pptpserver1.erb"
   owner "root"
   group "root"
   mode "0664"
@@ -66,6 +66,6 @@ template "/etc/ppp/options.pptp" do
 end
 
 execute "connecting server" do
-  command "pppd call pptpserver"
+  command "pppd call pptpserver1"
 end
 
