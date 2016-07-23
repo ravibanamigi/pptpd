@@ -1,0 +1,6 @@
+#!/bin/bash
+NET1="10.0.0.0/8"
+NET2="192.0.0.0/8"
+IFACE="ppp0"
+route add -net ${NET1} dev ${IFACE}
+route add -net ${NET2} dev ${IFACE}

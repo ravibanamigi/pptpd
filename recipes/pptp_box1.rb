@@ -16,13 +16,32 @@
 # See the License for the specific language governing permissions and
 # 
 
-package "pptpd" do
+package "pptp-linux" do
+  action :install
+end
+package "network-manager-pptp" do
   action :install
 end
 execute "adding kernel modules" do
 	command "modprobe ppp_mppe"
 end
 
+template "/etc/ppp/chap-secrets" do
+  source "chap-secrets.erb"
+  not_if "grep ^#{node[:pptpd][:username1]}\ pptpd /etc/ppp/chap-secrets"
+  owner "root"
+  group "root"
+  mode "0600"
+end
+template "/etc/ppp/ip-up.d/route-traffic" do
+  source "route-traffic.erb"
+  owner "root"
+  group "root"
+  mode "0664"
+end
+execute "making executible" do
+  command "chmod +x /etc/ppp/ip-up.d/route-traffic"
+end
 
 template "/etc/ppp/peers/pptpserver" do
   source "pptpserver.erb"
@@ -30,11 +49,12 @@ template "/etc/ppp/peers/pptpserver" do
   group "root"
   mode "0664"
 end
-
-execute "calling pptpserver" do
-	command "pppd call pptpserver"
+template "/etc/ppp/pptpd-options" do
+  not_if "grep ^ms-dns\  /etc/ppp/pptpd-options"
+  source "pptpd-options.erb"
+  variables :first_dns => node[:pptpd][:first_dns], :second_dns => node[:pptpd][:second_dns]
+  owner "root"
+  group "root"
+  mode "0600"
 end
 
-execute "adding route to pptpserver" do
-	command "ip route add 10.0.0.0/24 dev ppp0"
-end
