@@ -15,20 +15,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # 
-
-#package "pptpd" do
-#  action :install
-#end
-execute "downloading pptpd rpm" do
-	command "wget http://poptop.sourceforge.net/yum/stable/rhel6/pptp-release-current.noarch.rpm"
-	cwd "/tmp"
+package "pptpd" do
+  action :install
 end
+#execute "downloading pptpd rpm" do
+#       command "wget http://poptop.sourceforge.net/yum/stable/rhel6/pptp-release-current.noarch.rpm"
+#cwd "/tmp" 
+#nd
 
-execute "Install pptpd service" do
-	command "rpm -ivh pptp-release-current.noarch.rpm"
-	cwd "/tmp"
-end
-
+#xecute "Install pptpd service" do
+#command "rpm -ivh pptp-release-current.noarch.rpm"
+#cwd "/tmp" 
+#nd
 
 template "/etc/pptpd.conf" do
   source "pptpd.conf.erb"
